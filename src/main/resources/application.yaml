@@ -1,0 +1,9 @@
+## Using the idea of profile to have multiple configurations to run this app
+
+
+spring:
+  application:
+    name: FullStack01LovableClone
+    description: This is a spring bases AI code editor with end to end application workflow
+
+
