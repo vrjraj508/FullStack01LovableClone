@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: jdbc:postgresql://localhost:5433/mydb
+    url: jdbc:postgresql://localhost:5433/lovable
     username: postgres
     password: admin
 
@@ -13,3 +13,7 @@ spring:
     properties:
       hibernate:
         format_sql: true
+
+
+server:
+  port: 8081

@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.List;
 
 
-@Service
+
 public interface ProjectService {
     List<ProjectSummaryResponse> getUserProjects(Long userId);
 

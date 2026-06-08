@@ -4,7 +4,7 @@ import com.basics.lovableclone.dtos.subscription.PlanLimitResponse;
 import com.basics.lovableclone.dtos.subscription.UsageTodayResponse;
 import org.springframework.stereotype.Service;
 
-@Service
+
 public interface UsageService {
     UsageTodayResponse getTodayUsage(Long userId);
 
