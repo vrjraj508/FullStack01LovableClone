@@ -18,12 +18,10 @@ public class ProjectController {
 
     private final ProjectService projectService;
 
-    //Can be accessed by those who are already logged in the app
+    //Can be accessed by those who are already logged in the
     @GetMapping
     public ResponseEntity<List<ProjectSummaryResponse>> getMyProjects(){
-        Long userId = 1L; //Todo update later from spring security
-        //Dummy object to make the project from start.
-
+        Long userId = 1L;
         return ResponseEntity.ok(projectService.getUserProjects(userId));
     }
 
@@ -46,6 +44,13 @@ public class ProjectController {
     public ResponseEntity<ProjectResponse> updateProject(@PathVariable Long id, @RequestBody ProjectRequest request){
         Long userId = 1L;
         return ResponseEntity.ok(projectService.updateProject(id,request,userId));
+    }
+
+    //Testing Methods
+
+    @GetMapping("/test")
+    public ResponseEntity<List<ProjectResponse>> getAllProjects(){
+        return ResponseEntity.ok(projectService.getAllProjects());
     }
 
 

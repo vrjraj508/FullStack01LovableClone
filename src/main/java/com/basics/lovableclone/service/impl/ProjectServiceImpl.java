@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -30,17 +31,18 @@ public class ProjectServiceImpl implements ProjectService {
 
     //Here we are not going to use model mapper as it uses reflection and is slower
     //Also we cannot use model mapper with nested records as the support for model mapper records was added recently and is not very stable
+    //We can implement nested records in the provided programs
 
 
     @Override
-
     public ProjectResponse createProject(ProjectRequest request, Long userId) {
 
-        User owner = userRepository.findById(userId).orElseThrow();
+        User owner = userRepository.findById(userId).orElseThrow(()-> new RuntimeException(("User not found")));
 
         Project project = Project.builder()
                 .name( request.name())
-                .owner(request.owner())
+                .owner(owner)
+                .isPublic(false)
                 .build();
 
         project = projectRepository.save(project);
@@ -48,11 +50,18 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.toProjectResponse(project);
     }
 
+    //Here we can use the mapper and the stream to convert it in project response and get the details here.
 
     @Override
     public List<ProjectSummaryResponse> getUserProjects(Long userId) {
-        return List.of();
+
+        return projectRepository.findAllAccessibleByUser(userId)
+                .stream()
+                .map(projectMapper::toProjectSummaryResponse)
+                .collect(Collectors.toList());
     }
+
+
 
     @Override
     public ProjectResponse getUserProjectById(Long id, Long userId) {
@@ -69,5 +78,16 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public void softDelete(Long id, Long userId) {
 
+    }
+
+
+    //Testing methods Here
+    public List<ProjectResponse> getAllProjects(){
+        List<ProjectResponse> allProjects = projectRepository.findAll()
+                .stream()
+                .map(projectMapper::toProjectResponse)
+                .toList();
+
+        return allProjects;
     }
 }

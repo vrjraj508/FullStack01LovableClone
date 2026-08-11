@@ -4,6 +4,8 @@ package com.basics.lovableclone.entity;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.Instant;
 
@@ -14,7 +16,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-@Table(name = "users")
+@Table(name = "projects")
 public class Project {
 
     @Id
@@ -23,16 +25,18 @@ public class Project {
     @Column(nullable = false)
     String name;
 
-    //Many projects  to one owner
-    //We can have many projects created by one owners right
     @ManyToOne
     @JoinColumn(name = "owner_id",nullable = false)
     User owner;
 
     Boolean isPublic = false;
 
+    @CreationTimestamp
     Instant createdAt;
+
+    @UpdateTimestamp
     Instant updatedAt;
+
     Instant deletedAt; //Soft delete
 
 }
